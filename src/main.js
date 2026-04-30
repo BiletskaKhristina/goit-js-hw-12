@@ -1,9 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-import {
-  getImagesByQuery,
-} from './js/pixabay-api.js';
+import { getImagesByQuery } from './js/pixabay-api.js';
 
 import {
   createGallery,
@@ -28,7 +26,6 @@ async function onSearch(e) {
   e.preventDefault();
 
   query = e.target.elements.search.value.trim();
-
   if (!query) return;
 
   page = 1;
@@ -41,10 +38,8 @@ async function onSearch(e) {
 
     totalHits = data.totalHits;
 
-    if (data.hits.length === 0) {
-      iziToast.error({
-        message: 'No images found',
-      });
+    if (!data.hits.length) {
+      iziToast.error({ message: 'No images found' });
       return;
     }
 
@@ -55,11 +50,8 @@ async function onSearch(e) {
     });
 
     checkLoadMore();
-    smoothScroll();
-  } catch (err) {
-    iziToast.error({
-      message: 'Something went wrong',
-    });
+  } catch (error) {
+    iziToast.error({ message: 'Something went wrong' });
   } finally {
     hideLoader();
   }
@@ -67,6 +59,7 @@ async function onSearch(e) {
 
 async function onLoadMore() {
   page += 1;
+
   hideLoadMoreButton();
   showLoader();
 
@@ -76,41 +69,23 @@ async function onLoadMore() {
     createGallery(data.hits);
 
     checkLoadMore();
-    smoothScroll();
-  } catch (err) {
-    iziToast.error({
-      message: 'Failed to load more',
-    });
+  } catch (error) {
+    iziToast.error({ message: 'Failed to load more' });
   } finally {
     hideLoader();
   }
 }
 
 function checkLoadMore() {
-  const loaded = page * 15;
-
-  if (loaded >= totalHits) {
+  if (page * 15 >= totalHits) {
     hideLoadMoreButton();
 
     iziToast.info({
-      message:
-        "We're sorry, but you've reached the end of search results.",
+      message: "We're sorry, but you've reached the end of search results.",
     });
 
     return;
   }
 
   showLoadMoreButton();
-}
-
-function smoothScroll() {
-  const card = document.querySelector('.gallery a');
-  if (!card) return;
-
-  const { height } = card.getBoundingClientRect();
-
-  window.scrollBy({
-    top: height * 2,
-    behavior: 'smooth',
-  });
 }

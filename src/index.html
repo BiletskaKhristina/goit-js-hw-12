@@ -2,22 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>Image Finder</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
+
   <body>
-   <form class="form">
-  <input type="text" name="search" />
-  <button type="submit">Search</button>
-</form>
+    <form class="form">
+      <input type="text" name="search" placeholder="Search images..." />
+      <button type="submit">Search</button>
+    </form>
 
-<ul class="gallery"></ul>
+    <ul class="gallery"></ul>
 
-<button class="load-more hidden">Load more</button>
+    <button class="load-more hidden">Load more</button>
 
-<div class="loader hidden"></div>
+    <div class="loader hidden">Loading...</div>
+
     <script type="module" src="./main.js"></script>
   </body>
 </html>
