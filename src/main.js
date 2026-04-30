@@ -14,6 +14,9 @@ import {
 
 const form = document.querySelector('.form');
 const loadMoreBtn = document.querySelector('.load-more');
+const gallery = document.querySelector('.gallery');
+
+const PER_PAGE = 15;
 
 let query = '';
 let page = 1;
@@ -56,6 +59,7 @@ async function onSearch(e) {
     hideLoader();
   }
 }
+
 async function onLoadMore() {
   page += 1;
 
@@ -67,13 +71,15 @@ async function onLoadMore() {
 
     createGallery(data.hits);
 
-  
-    const rect = document.querySelector('.gallery').getBoundingClientRect();
+    const firstItem = document.querySelector('.gallery-item');
+    if (firstItem) {
+      const height = firstItem.getBoundingClientRect().height;
 
-    window.scrollBy({
-      top: rect.height * 2,
-      behavior: 'smooth',
-    });
+      window.scrollBy({
+        top: height * 2,
+        behavior: 'smooth',
+      });
+    }
 
     checkLoadMore();
   } catch (error) {
@@ -84,7 +90,7 @@ async function onLoadMore() {
 }
 
 function checkLoadMore() {
-  if (page * 15 >= totalHits) {
+  if (page * PER_PAGE >= totalHits) {
     hideLoadMoreButton();
 
     iziToast.info({
