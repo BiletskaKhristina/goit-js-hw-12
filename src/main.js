@@ -56,7 +56,6 @@ async function onSearch(e) {
     hideLoader();
   }
 }
-
 async function onLoadMore() {
   page += 1;
 
@@ -67,6 +66,14 @@ async function onLoadMore() {
     const data = await getImagesByQuery(query, page);
 
     createGallery(data.hits);
+
+  
+    const rect = document.querySelector('.gallery').getBoundingClientRect();
+
+    window.scrollBy({
+      top: rect.height * 2,
+      behavior: 'smooth',
+    });
 
     checkLoadMore();
   } catch (error) {
